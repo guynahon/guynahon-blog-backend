@@ -1,24 +1,24 @@
-import { PostDataAccess } from "../data-access/PostDataAccess";
+import { PostDataAccessInMemory } from "../data-access/PostDataAccessInMemory";
 import Post from "../models/Post";
 
 export class PostServices {
 
-    private postDataAccess: PostDataAccess;
+    private postDataAccess: PostDataAccessInMemory;
 
-    constructor(postDataAccess: PostDataAccess) {
+    constructor(postDataAccess: PostDataAccessInMemory) {
         this.postDataAccess = postDataAccess;
     }
 
     async addPost(post: Post): Promise<void>{
         try {
-            await this.postDataAccess.add(post);
+            await this.postDataAccess.addPost(post);
         } catch(error) {
             throw new Error(`Unable to add post: ${(error as Error).message}`);
         }
     }
 
     async getPost(postId: number): Promise<Post> {
-        const post = await this.postDataAccess.get(postId);
+        const post = await this.postDataAccess.getPost(postId);
         if (post) {
             return post;
         } else {
@@ -26,9 +26,9 @@ export class PostServices {
         }
     }
 
-    async editPost(postId: number): Promise<void> {
+    async editPost(postId: number, editDetails: Partial<Post>): Promise<void> {
         try {
-        await this.postDataAccess.edit(postId);
+        await this.postDataAccess.editPost(postId, editDetails);
         } catch {
             throw new Error(`unable to update post with the ID : ${postId}`);
         }
@@ -36,7 +36,7 @@ export class PostServices {
 
     async removePost(postId: number): Promise<void> {
         try {
-            await this.postDataAccess.remove(postId);
+            await this.postDataAccess.removePost(postId);
         } catch(error) {
             throw new Error(`unable to remove post with the ID: ${postId}`)
         }

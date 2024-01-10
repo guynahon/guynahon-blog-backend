@@ -38,8 +38,9 @@ export class PostController {
 
     async editPost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
+        const editDetails: Partial<Post> = req.body;
         try {
-            await this.postServices.editPost(postId);
+            await this.postServices.editPost(postId, editDetails);
             res.status(200).send('post edited');
         } catch (error) {
             res.status(404).send((error as Error).message);
