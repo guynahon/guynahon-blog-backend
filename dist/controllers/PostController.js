@@ -21,6 +21,7 @@ class PostController {
     addPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postData = req.body;
+            console.log(req.body);
             const post = new Post_1.default(postData.title, postData.body, postData.subject, postData.date);
             try {
                 yield this.postServices.addPost(post);
@@ -46,8 +47,9 @@ class PostController {
     editPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
+            const editDetails = req.body;
             try {
-                yield this.postServices.editPost(postId);
+                yield this.postServices.editPost(postId, editDetails);
                 res.status(200).send('post edited');
             }
             catch (error) {

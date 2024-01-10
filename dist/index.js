@@ -9,6 +9,4 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const port = 5000;
 app.use("/post", PostRoutes_1.default);
-app.listen(port, () => {
-    console.log(`app listeing on port ${port}`);
-});
+app.listen(port, () => console.log(`app listeing on port ${port}`));

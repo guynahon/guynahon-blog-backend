@@ -1,2 +1,27 @@
+POST http://localhost:5000/post/
+Content-Type: application/json
+
+{
+    "title": "my name is guy",
+    "body": "im 28 y/o",
+    "subject": "fuck you",
+    "date": "24-04-95"
+}
+
+###
 
 GET http://localhost:5000/post/1
+
+###
+
+PUT http://localhost:5000/post/2
+Content-Type: application/json
+
+{
+    "title" : "hello goodbye",
+    "date" : "25-06-78"
+}
+
+###
+
+DELETE http://localhost:5000/post/1

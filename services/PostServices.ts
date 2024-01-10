@@ -1,3 +1,4 @@
+import { log } from "console";
 import { PostDataAccessInMemory } from "../data-access/PostDataAccessInMemory";
 import Post from "../models/Post";
 
@@ -19,6 +20,7 @@ export class PostServices {
 
     async getPost(postId: number): Promise<Post> {
         const post = await this.postDataAccess.getPost(postId);
+        console.log(post);
         if (post) {
             return post;
         } else {

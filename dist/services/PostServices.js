@@ -17,7 +17,7 @@ class PostServices {
     addPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.postDataAccess.add(post);
+                yield this.postDataAccess.addPost(post);
             }
             catch (error) {
                 throw new Error(`Unable to add post: ${error.message}`);
@@ -26,7 +26,8 @@ class PostServices {
     }
     getPost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield this.postDataAccess.get(postId);
+            const post = yield this.postDataAccess.getPost(postId);
+            console.log(post);
             if (post) {
                 return post;
             }
@@ -35,10 +36,10 @@ class PostServices {
             }
         });
     }
-    editPost(postId) {
+    editPost(postId, editDetails) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.postDataAccess.edit(postId);
+                yield this.postDataAccess.editPost(postId, editDetails);
             }
             catch (_a) {
                 throw new Error(`unable to update post with the ID : ${postId}`);
@@ -48,7 +49,7 @@ class PostServices {
     removePost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.postDataAccess.remove(postId);
+                yield this.postDataAccess.removePost(postId);
             }
             catch (error) {
                 throw new Error(`unable to remove post with the ID: ${postId}`);

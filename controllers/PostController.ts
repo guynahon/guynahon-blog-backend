@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
+import { log } from "console";
 
 
 export class PostController {
@@ -12,6 +13,7 @@ export class PostController {
 
     async addPost(req: Request, res: Response): Promise<void> {
         const postData = req.body;
+        console.log(req.body);
         const post = new Post(
             postData.title,
             postData.body,
