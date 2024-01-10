@@ -1,3 +1,4 @@
+import { FilterAndPage } from "../models/FilterAndPage";
 import Post from "../models/Post";
 
 class InMemoryDB {
@@ -17,6 +18,21 @@ class InMemoryDB {
     //POST METHODS
     addPost(post: Post): void {
         this.posts.set(post.id, post);
+    }
+
+    getPosts(filteringAndPagingData: FilterAndPage): Array<Post> {
+         let postsArray = Array.from(this.posts.values());
+         const from = filteringAndPagingData.from;
+         const to = filteringAndPagingData.to;
+         const filterBy= filteringAndPagingData.filterBy;
+         if (from && to && typeof postsArray[from-1] !== 'undefined' && typeof postsArray[to-1] !== 'undefined') {
+            postsArray = postsArray.slice(from-1, to);
+         }
+         if (filterBy) {
+            postsArray = postsArray.filter((post) => post.title.includes(filterBy));
+         }
+         return postsArray
+         
     }
 
     getPost(id: number): Post | undefined {

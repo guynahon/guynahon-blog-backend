@@ -21,11 +21,27 @@ class PostController {
     addPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postData = req.body;
-            console.log(req.body);
             const post = new Post_1.default(postData.title, postData.body, postData.subject, postData.date);
             try {
                 yield this.postServices.addPost(post);
                 res.status(201).send('post created!');
+            }
+            catch (error) {
+                res.status(404).send(error.message);
+            }
+        });
+    }
+    getPosts(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const bodyData = req.body;
+            const filterAndPageData = {
+                from: parseInt(bodyData.from),
+                to: parseInt(bodyData.to),
+                filterBy: bodyData.filterBy
+            };
+            try {
+                const postsList = yield this.postServices.getPosts(filterAndPageData);
+                res.status(200).send(postsList);
             }
             catch (error) {
                 res.status(404).send(error.message);

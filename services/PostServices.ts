@@ -1,5 +1,5 @@
-import { log } from "console";
 import { PostDataAccessInMemory } from "../data-access/PostDataAccessInMemory";
+import { FilterAndPage } from "../models/FilterAndPage";
 import Post from "../models/Post";
 
 export class PostServices {
@@ -18,9 +18,17 @@ export class PostServices {
         }
     }
 
+    async getPosts(filterAndPageData: FilterAndPage): Promise<Array<Post>>{
+        const postsList = await this.postDataAccess.getPosts(filterAndPageData);
+        if (postsList) {
+            return postsList;
+        } else {
+            throw new Error("there are no posts");
+        }
+    }
+
     async getPost(postId: number): Promise<Post> {
         const post = await this.postDataAccess.getPost(postId);
-        console.log(post);
         if (post) {
             return post;
         } else {

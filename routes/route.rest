@@ -1,8 +1,80 @@
-POST http://localhost:5000/post/
+POST http://localhost:5000/post
 Content-Type: application/json
 
 {
-    "title": "my name is guy",
+    "title": "hello i am guy",
+    "body": "fuck you lol",
+    "subject": "fuck you again",
+    "date": "24-04-95"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": "my name is noam",
+    "body": "im 25",
+    "subject": "fuck you too",
+    "date": "23-01-98"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": "my name is hello",
+    "body": "im 542 y/o",
+    "subject": "fuck 888",
+    "date": "66565656"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": " hello my name is yoram",
+    "body": "im 265 y/o",
+    "subject": "lol you",
+    "date": "24-45-95"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": "my name is pazit",
+    "body": "im 55 y/o",
+    "subject": "fuck you",
+    "date": "11-12-95"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": "my hello is assaf",
+    "body": "im navoth",
+    "subject": "fuck you",
+    "date": "24-04-95"
+}
+
+###
+
+POST http://localhost:5000/post
+Content-Type: application/json
+
+{
+    "title": "my name hello noam",
     "body": "im 28 y/o",
     "subject": "fuck you",
     "date": "24-04-95"
@@ -10,18 +82,21 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5000/post/1
-
-###
-
-PUT http://localhost:5000/post/2
+POST http://localhost:5000/post
 Content-Type: application/json
 
 {
-    "title" : "hello goodbye",
-    "date" : "25-06-78"
+    "title": "my hello is noam",
+    "body": "im 28 y/o",
+    "subject": "fuck you",
+    "date": "24-04-95"
 }
 
 ###
 
-DELETE http://localhost:5000/post/1
+GET http://localhost:5000/post
+Content-Type: application/json
+
+{
+
+}

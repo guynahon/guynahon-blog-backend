@@ -24,6 +24,15 @@ class PostDataAccessInMemory {
             yield this.db.addPost(post);
         });
     }
+    getPosts(filterAndPageData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postsList = yield this.db.getPosts(filterAndPageData);
+            if (!postsList) {
+                throw new Error("there are no posts");
+            }
+            return postsList;
+        });
+    }
     getPost(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield this.db.getPost(id);

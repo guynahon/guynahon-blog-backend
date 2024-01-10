@@ -1,6 +1,7 @@
 import Post from "../models/Post";
 import { PostDataAccess } from "./PostDataAccess";
 import InMemoryDB from '../DataBase/InMemoryDB'
+import { FilterAndPage } from "../models/FilterAndPage";
 
 export class PostDataAccessInMemory implements PostDataAccess<Post> {
     private db = InMemoryDB.getInstance();
@@ -10,6 +11,15 @@ export class PostDataAccessInMemory implements PostDataAccess<Post> {
     async addPost(post: Post): Promise<void> {
         await this.db.addPost(post);
     }
+
+    async getPosts(filterAndPageData: FilterAndPage): Promise<Array<Post>> {
+        const postsList = await this.db.getPosts(filterAndPageData);
+        if (!postsList) {
+            throw new Error("there are no posts")
+        }
+        return postsList;
+    }
+
     async getPost(id: number): Promise<Post> {
         const post = await this.db.getPost(id);
         if (!post) {

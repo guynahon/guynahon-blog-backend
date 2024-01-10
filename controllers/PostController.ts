@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
-import { log } from "console";
+import { FilterAndPage } from '../models/FilterAndPage'
 
 
 export class PostController {
@@ -13,7 +13,6 @@ export class PostController {
 
     async addPost(req: Request, res: Response): Promise<void> {
         const postData = req.body;
-        console.log(req.body);
         const post = new Post(
             postData.title,
             postData.body,
@@ -25,6 +24,21 @@ export class PostController {
         res.status(201).send('post created!')
         } catch(error) {
             res.status(404).send((error as Error).message)
+        }
+    }
+
+    async getPosts (req: Request, res: Response): Promise<void> {
+        const bodyData = req.body;
+        const filterAndPageData: FilterAndPage = {
+            from: parseInt(bodyData.from),
+            to: parseInt(bodyData.to),
+            filterBy: bodyData.filterBy
+        }
+        try {
+            const postsList = await this.postServices.getPosts(filterAndPageData);
+            res.status(200).send(postsList);
+        } catch(error) {
+            res.status(404).send((error as Error).message);
         }
     }
 

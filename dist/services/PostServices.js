@@ -24,10 +24,20 @@ class PostServices {
             }
         });
     }
+    getPosts(filterAndPageData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postsList = yield this.postDataAccess.getPosts(filterAndPageData);
+            if (postsList) {
+                return postsList;
+            }
+            else {
+                throw new Error("there are no posts");
+            }
+        });
+    }
     getPost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield this.postDataAccess.getPost(postId);
-            console.log(post);
             if (post) {
                 return post;
             }
