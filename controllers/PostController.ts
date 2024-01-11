@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
-import { FilterAndPage } from '../models/FilterAndPage'
+import { FilterAndPage } from '../models/TypeFilterAndPage'
 
 
 export class PostController {

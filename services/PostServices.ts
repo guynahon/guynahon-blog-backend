@@ -1,5 +1,5 @@
 import { PostDataAccessInMemory } from "../data-access/PostDataAccessInMemory";
-import { FilterAndPage } from "../models/FilterAndPage";
+import { FilterAndPage } from "../models/TypeFilterAndPage";
 import Post from "../models/Post";
 
 export class PostServices {

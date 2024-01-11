@@ -1,6 +1,6 @@
-import { FilterAndPage } from "../models/FilterAndPage";
+import { FilterAndPage } from "../models/TypeFilterAndPage";
 
-export interface PostDataAccess <Post> {
+export interface IPostDataAccess <Post> {
     
     addPost(post: Post): Promise<void>;
     getPosts(filterAndPageData: FilterAndPage): Promise<Array<Post>>;

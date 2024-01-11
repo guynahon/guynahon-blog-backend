@@ -1,4 +1,4 @@
-import { FilterAndPage } from "../models/FilterAndPage";
+import { FilterAndPage } from "../models/TypeFilterAndPage";
 import Post from "../models/Post";
 
 class InMemoryDB {

@@ -1,9 +1,9 @@
 import Post from "../models/Post";
-import { PostDataAccess } from "./PostDataAccess";
+import { IPostDataAccess } from "./IPostDataAccess";
 import InMemoryDB from '../DataBase/InMemoryDB'
-import { FilterAndPage } from "../models/FilterAndPage";
+import { FilterAndPage } from "../models/TypeFilterAndPage";
 
-export class PostDataAccessInMemory implements PostDataAccess<Post> {
+export class PostDataAccessInMemory implements IPostDataAccess<Post> {
     private db = InMemoryDB.getInstance();
 
     //post methods
