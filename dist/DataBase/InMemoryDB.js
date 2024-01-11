@@ -20,11 +20,19 @@ class InMemoryDB {
         const from = filteringAndPagingData.from;
         const to = filteringAndPagingData.to;
         const filterBy = filteringAndPagingData.filterBy;
-        if (from && to && typeof postsArray[from - 1] !== 'undefined' && typeof postsArray[to - 1] !== 'undefined') {
+        return this.filterHelper(this.pagingHelper(postsArray, from, to), filterBy);
+    }
+    pagingHelper(postsArray, from, to) {
+        console.log(from, to);
+        if (from && to && 0 <= from && postsArray.length > to) {
+            console.log(from, to);
             postsArray = postsArray.slice(from - 1, to);
         }
+        return postsArray;
+    }
+    filterHelper(postsArray, filterBy) {
         if (filterBy) {
-            postsArray = postsArray.filter((post) => post.title.includes(filterBy));
+            postsArray = postsArray.filter((post) => post.title.toLowerCase().includes(filterBy.toLowerCase().trim()));
         }
         return postsArray;
     }

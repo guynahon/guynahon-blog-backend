@@ -50,7 +50,7 @@ POST http://localhost:5000/post
 Content-Type: application/json
 
 {
-    "title": "my name is pazit",
+    "title": " HElLo my name is pazit",
     "body": "im 55 y/o",
     "subject": "fuck you",
     "date": "11-12-95"
@@ -98,5 +98,7 @@ GET http://localhost:5000/post
 Content-Type: application/json
 
 {
-
+"from": "dskd",
+"to": "rr0",
+"filterBy": "     HeLLo  "
 }

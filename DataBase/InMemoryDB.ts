@@ -24,15 +24,22 @@ class InMemoryDB {
          let postsArray = Array.from(this.posts.values());
          const from = filteringAndPagingData.from;
          const to = filteringAndPagingData.to;
-         const filterBy= filteringAndPagingData.filterBy;
-         if (from && to && typeof postsArray[from-1] !== 'undefined' && typeof postsArray[to-1] !== 'undefined') {
+         const filterBy = filteringAndPagingData.filterBy;
+         return this.filterHelper(this.pagingHelper(postsArray, from, to), filterBy);
+    }
+
+    private pagingHelper(postsArray:Array<Post>, from: number | undefined, to: number | undefined) {
+        if (from && to && 0 <= from && postsArray.length > to) {
             postsArray = postsArray.slice(from-1, to);
          }
-         if (filterBy) {
-            postsArray = postsArray.filter((post) => post.title.includes(filterBy));
+         return postsArray;
+    }
+
+    private filterHelper(postsArray:Array<Post>, filterBy: string | undefined) {
+        if (filterBy) {
+            postsArray = postsArray.filter((post) => post.title.toLowerCase().includes(filterBy.toLowerCase().trim()));
          }
-         return postsArray
-         
+         return postsArray;
     }
 
     getPost(id: number): Post | undefined {
