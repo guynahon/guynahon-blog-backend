@@ -48,10 +48,21 @@ class PostDataAccessSQL {
                     const day = post.date.getDate().toString().padStart(2, '0');
                     const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
                     const year = post.date.getFullYear().toString();
-                    console.log(`${year}-${month}-${day}`);
                     postsArray.push(new Post_1.default(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`));
                 }
                 return postsArray;
+            }
+            catch (error) {
+                console.error(error.message);
+                throw error;
+            }
+        });
+    }
+    clearPosts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "DELETE FROM post";
+                yield this.client.query(query);
             }
             catch (error) {
                 console.error(error.message);
@@ -99,7 +110,7 @@ class PostDataAccessSQL {
                 yield this.client.query(query);
             }
             catch (error) {
-                console.log(error.message);
+                console.error(error.message);
                 throw error;
             }
         });

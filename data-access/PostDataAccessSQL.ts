@@ -38,13 +38,22 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
                 const day = post.date.getDate().toString().padStart(2, '0');
                 const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
                 const year = post.date.getFullYear().toString();
-                console.log(`${year}-${month}-${day}`);
                 
                 postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`));
             }
             return postsArray;
 
         } catch(error) {
+            console.error((error as Error).message);
+            throw error;
+        }
+    }
+
+    async clearPosts(): Promise<void> {
+        try {
+            const query = "DELETE FROM post";
+            await this.client.query(query);
+        } catch (error) {
             console.error((error as Error).message);
             throw error;
         }
@@ -87,7 +96,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
             }
             await this.client.query(query);
         } catch (error) {
-            console.log((error as Error).message);
+            console.error((error as Error).message);
             throw error;
             
         }

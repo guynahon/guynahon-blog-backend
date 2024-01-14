@@ -27,6 +27,14 @@ export class PostServices {
         }
     }
 
+    async clearPosts(): Promise<void> {
+        try {
+            await this.postDataAccess.clearPosts();
+        } catch (error) {
+            throw new Error(`Unable to clear posts: ${(error as Error).message}`);
+        }
+    }
+
     async getPost(postId: number): Promise<Post> {
         const post = await this.postDataAccess.getPost(postId);
         if (post) {

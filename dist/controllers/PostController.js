@@ -48,6 +48,17 @@ class PostController {
             }
         });
     }
+    clearPosts(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.postServices.clearPosts();
+                res.status(200).send("cleared all posts");
+            }
+            catch (error) {
+                res.status(404).send("failed clearing all posts");
+            }
+        });
+    }
     getPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
@@ -64,7 +75,6 @@ class PostController {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
             const editDetails = req.body;
-            console.log(editDetails);
             try {
                 yield this.postServices.editPost(postId, editDetails);
                 res.status(200).send('post edited');
@@ -77,6 +87,7 @@ class PostController {
     removePost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
+            console.log(postId);
             try {
                 yield this.postServices.removePost(postId);
                 res.status(200).send('post removed');

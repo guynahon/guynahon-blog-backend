@@ -43,6 +43,15 @@ export class PostController {
         }
     }
 
+    async clearPosts(req: Request, res: Response): Promise<void> {
+        try {
+            await this.postServices.clearPosts();
+            res.status(200).send("cleared all posts");
+        } catch(error) {
+            res.status(404).send("failed clearing all posts")
+        }
+    }
+
     async getPost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
         try {
@@ -56,7 +65,6 @@ export class PostController {
     async editPost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
         const editDetails: Partial<Post> = req.body;
-        console.log(editDetails);
         
         try {
             await this.postServices.editPost(postId, editDetails);
@@ -68,6 +76,8 @@ export class PostController {
 
     async removePost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
+        console.log(postId);
+        
         try {
             await this.postServices.removePost(postId);
             res.status(200).send('post removed');

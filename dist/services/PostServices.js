@@ -35,6 +35,16 @@ class PostServices {
             }
         });
     }
+    clearPosts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.postDataAccess.clearPosts();
+            }
+            catch (error) {
+                throw new Error(`Unable to clear posts: ${error.message}`);
+            }
+        });
+    }
     getPost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield this.postDataAccess.getPost(postId);
