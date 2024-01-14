@@ -27,11 +27,44 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
 
 
     async getPosts(filterAndPageData: FilterAndPage): Promise<Post[]> {
+        const from = filterAndPageData.from;
+        const to = filterAndPageData.to;
+        const filterBy = filterAndPageData.filterBy;
+        let query;
         try {
-            const query = {
-                text: "SELECT * FROM post ORDER BY id ASC",
-                values: []
-            };
+            if((from && to) && filterBy) {
+                query = {
+                    text: `
+                    WITH afterFromTo AS (
+                        SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) AS row_num
+                        FROM post
+                    )
+                    SELECT *
+                    FROM afterFromTo
+                    WHERE (row_num BETWEEN $1 AND $2) AND (LOWER(title) LIKE $3)
+                    ORDER BY id ASC;
+                    `,
+                    values: [from, to, `%${filterBy.toLowerCase().trim()}%`]
+                };
+            } else if ((!from || !to) && filterBy) {
+                query = {
+                    text: `SELECT * FROM post WHERE LOWER(title) LIKE $1 ORDER BY id ASC`,
+                    values: [`%${filterBy.toLowerCase().trim()}%`]
+                };
+            } else if ((from && to) && !filterBy) {
+                query = {
+                    text: `
+                    SELECT *
+                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM post)
+                    WHERE row_num BETWEEN $1 AND $2`,
+                    values: [from, to]
+                };
+            } else {
+                query = {
+                    text: "SELECT * FROM post ORDER BY id ASC",
+                    values: []
+                };
+            }
             const dataArray = await this.client.query(query);
             const postsArray: Array<Post> = [];
             for (let post of dataArray.rows) {

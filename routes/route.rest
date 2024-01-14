@@ -16,7 +16,7 @@ Content-Type: application/json
 {
     "title": "my name is noam",
     "body": "im 25",
-    "subject": "fuck you too",
+    "subject": "tutorials",
     "date": "23-01-98"
 }
 
@@ -28,8 +28,8 @@ Content-Type: application/json
 {
     "title": "my name is hello",
     "body": "im 542 y/o",
-    "subject": "fuck 888",
-    "date": "4561626"
+    "subject": "dailydigest",
+    "date": "23-01-98"
 }
 
 ###
@@ -40,7 +40,7 @@ Content-Type: application/json
 {
     "title": " hello my name is yoram",
     "body": "im 265 y/o",
-    "subject": "lol you",
+    "subject": "tutorials",
     "date": "24-45-95"
 }
 
@@ -98,9 +98,9 @@ GET http://localhost:5000/post
 Content-Type: application/json
 
 {
-"from": "dskd",
-"to": "rr0",
-"filterBy": "     HeLLo  "
+    "from": 3,
+    "to": 8,
+    "filterBy": "     guY  "
 }
 
 ###
