@@ -1,12 +1,12 @@
-import { PostDataAccessInMemory } from "../data-access/PostDataAccessInMemory";
+import { PostDataAccessSQL } from "../data-access/PostDataAccessSQL";
 import { FilterAndPage } from "../models/TypeFilterAndPage";
 import Post from "../models/Post";
 
 export class PostServices {
 
-    private postDataAccess: PostDataAccessInMemory;
+    private postDataAccess: PostDataAccessSQL;
 
-    constructor(postDataAccess: PostDataAccessInMemory) {
+    constructor(postDataAccess: PostDataAccessSQL) {
         this.postDataAccess = postDataAccess;
     }
 

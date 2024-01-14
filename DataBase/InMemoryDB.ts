@@ -17,7 +17,7 @@ class InMemoryDB {
 
     //POST METHODS
     addPost(post: Post): void {
-        this.posts.set(post.id, post);
+        // this.posts.set(post.id, post);
     }
 
     getPosts(filteringAndPagingData: FilterAndPage): Array<Post> {

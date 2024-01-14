@@ -29,7 +29,7 @@ Content-Type: application/json
     "title": "my name is hello",
     "body": "im 542 y/o",
     "subject": "fuck 888",
-    "date": "66565656"
+    "date": "4561626"
 }
 
 ###
@@ -101,4 +101,22 @@ Content-Type: application/json
 "from": "dskd",
 "to": "rr0",
 "filterBy": "     HeLLo  "
+}
+
+###
+
+PUT http://localhost:5000/post/2
+Content-Type: application/json
+
+{
+    "title": "hahahahahahahaahahhaha"
+}
+
+###
+
+PUT http://localhost:5000/post/2
+Content-Type: application/json
+
+{
+    "title": "hahahahahahahaahahhaha"
 }

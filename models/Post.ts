@@ -1,13 +1,12 @@
 class Post {
-    private static idCounter: number = 1;
-    id: number;
+    id: number | null;
     title: string;
     body: string;
     subject: string;
     date: string;
 
-    constructor(title: string, body: string, subject: string, date: string) { 
-        this.id = Post.idCounter++;
+    constructor(id: number | null, title: string, body: string, subject: string, date: string) { 
+        this.id = id;
         this.title = title;
         this.body = body;
         this.subject = subject;

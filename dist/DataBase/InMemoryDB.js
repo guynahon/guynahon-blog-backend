@@ -13,7 +13,7 @@ class InMemoryDB {
     }
     //POST METHODS
     addPost(post) {
-        this.posts.set(post.id, post);
+        // this.posts.set(post.id, post);
     }
     getPosts(filteringAndPagingData) {
         let postsArray = Array.from(this.posts.values());
@@ -23,9 +23,7 @@ class InMemoryDB {
         return this.filterHelper(this.pagingHelper(postsArray, from, to), filterBy);
     }
     pagingHelper(postsArray, from, to) {
-        console.log(from, to);
         if (from && to && 0 <= from && postsArray.length > to) {
-            console.log(from, to);
             postsArray = postsArray.slice(from - 1, to);
         }
         return postsArray;
