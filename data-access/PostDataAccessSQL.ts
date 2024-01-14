@@ -15,7 +15,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
     async addPost(post: Post): Promise<void> {
         try {
             const query = {
-                text: "INSERT INTO post (title, body, subject, post_date) VALUES ($1, $2, $3, $4)",
+                text: "INSERT INTO post (title, body, subject, date) VALUES ($1, $2, $3, $4) WHERE $3 IN ('dailydigest', 'designtools', 'tutorials')",
                 values: [post.title, post.body, post.subject, post.date]
             };
             await this.client.query(query);
@@ -25,20 +25,21 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         }
     }
 
+
     async getPosts(filterAndPageData: FilterAndPage): Promise<Post[]> {
         try {
             const query = {
-                text: "SELECT * FROM public.post ORDER BY post_id ASC",
+                text: "SELECT * FROM post ORDER BY id ASC",
                 values: []
             };
             const dataArray = await this.client.query(query);
             const postsArray: Array<Post> = [];
             for (let post of dataArray.rows) {
-                const day = post.post_date.getDate().toString().padStart(2, '0');
-                const month = (post.post_date.getMonth() + 1).toString().padStart(2, '0');
-                const year = post.post_date.getFullYear().toString().slice(2);
+                const day = post.date.getDate().toString().padStart(2, '0');
+                const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
+                const year = post.date.getFullYear().toString().slice(2);
                 
-                postsArray.push(new Post(post.post_id, post.title, post.body, post.subject, `${day}-${month}-${year}`));
+                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${day}-${month}-${year}`));
             }
             return postsArray;
 
@@ -47,10 +48,12 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
             throw error;
         }
     }
+
+
     async getPost(id: number): Promise<Post> {
         try {
             const query = {
-                text: "SELECT * FROM public.post WHERE post_id = $1",
+                text: "SELECT * FROM public.post WHERE id = $1",
                 values: [id]
             };
             const post =  await this.client.query(query);
@@ -60,29 +63,32 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
             throw error;
         }
     }
+
+
     async editPost(id: number, editDetails: Partial<Post>): Promise<void> {
         const existingPost = await this.getPost(id);
-        console.log(existingPost);
-        
         const updatedPost = {...existingPost, ...editDetails}; 
-        console.log(updatedPost);
-        
         try {
-            const query = {
-                text: `UPDATE post SET title = $1, body = $2, subject = $3, post_date = $4 WHERE post_id = $5`,
-                value: [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.date, id]
-            }
-        await this.client.query(query);
-
+            const query = `UPDATE post SET title = $1, body = $2, subject = $3, date = $4 WHERE id = $5`;
+            await this.client.query(query, [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.date, id]);
         } catch(error) {
             console.error((error as Error).message);
             throw error; 
         }
     }
-    removePost(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+
+
+    async removePost(id: number): Promise<void> {
+        try {
+            const query = {
+                text: "DELETE FROM post WHERE id = $1",
+                values: [id]
+            }
+            await this.client.query(query);
+        } catch (error) {
+            console.log((error as Error).message);
+            throw error;
+            
+        }
     }
-
-
-
 }
