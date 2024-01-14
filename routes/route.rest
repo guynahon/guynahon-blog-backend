@@ -4,7 +4,7 @@ Content-Type: application/json
 {
     "title": "hello i am guy",
     "body": "fuck you lol",
-    "subject": "fuck you again",
+    "subject": "tutorials",
     "date": "24-04-95"
 }
 

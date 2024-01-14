@@ -64,6 +64,7 @@ class PostController {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
             const editDetails = req.body;
+            console.log(editDetails);
             try {
                 yield this.postServices.editPost(postId, editDetails);
                 res.status(200).send('post edited');

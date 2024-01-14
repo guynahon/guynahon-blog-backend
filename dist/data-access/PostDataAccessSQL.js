@@ -31,6 +31,7 @@ class PostDataAccessSQL {
             }
             catch (error) {
                 console.error(error.message);
+                throw error;
             }
         });
     }
@@ -46,8 +47,9 @@ class PostDataAccessSQL {
                 for (let post of dataArray.rows) {
                     const day = post.date.getDate().toString().padStart(2, '0');
                     const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
-                    const year = post.date.getFullYear().toString().slice(2);
-                    postsArray.push(new Post_1.default(post.id, post.title, post.body, post.subject, `${day}-${month}-${year}`));
+                    const year = post.date.getFullYear().toString();
+                    console.log(`${year}-${month}-${day}`);
+                    postsArray.push(new Post_1.default(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`));
                 }
                 return postsArray;
             }
