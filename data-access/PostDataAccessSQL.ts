@@ -10,8 +10,6 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         this.client = getClient();
     }
 
-    //post methods
-
     async addPost(post: Post): Promise<void> {
         try {
             const query = {
