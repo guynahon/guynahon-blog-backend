@@ -24,9 +24,9 @@ class PostServices {
             }
         });
     }
-    getPosts(filterAndPageData) {
+    getPosts(subjectAndFilterAndPageData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const postsList = yield this.postDataAccess.getPosts(filterAndPageData);
+            const postsList = yield this.postDataAccess.getPosts(subjectAndFilterAndPageData);
             if (postsList) {
                 return postsList;
             }

@@ -1,6 +1,6 @@
 import Post from "../models/Post";
 import { IPostDataAccess } from "./IPostDataAccess";
-import { FilterAndPage } from "../models/TypeFilterAndPage";
+import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import { Client } from "pg";
 import { getClient } from "../DataBase/DBconnection";
 
@@ -24,43 +24,66 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
     }
 
 
-    async getPosts(filterAndPageData: FilterAndPage): Promise<Post[]> {
-        const from = filterAndPageData.from;
-        const to = filterAndPageData.to;
-        const filterBy = filterAndPageData.filterBy;
+    async getPosts(subjectAndFilterAndPageData: SubjectAndFilterAndPage): Promise<Post[]> {
+        const subject = subjectAndFilterAndPageData.subject;
+        const from = subjectAndFilterAndPageData.from;
+        const to = subjectAndFilterAndPageData.to;
+        const filterBy = subjectAndFilterAndPageData.filterBy;
         let query;
         try {
             if((from && to) && filterBy) {
                 query = {
                     text: `
-                    WITH afterFromTo AS (
-                        SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) AS row_num
+                    WITH afterSubject AS (
+                        SELECT *
                         FROM post
+                        WHERE subject = $1
+                    ),
+                    afterFromTo AS (
+                        SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) AS row_num
+                        FROM afterSubject
                     )
                     SELECT *
                     FROM afterFromTo
-                    WHERE (row_num BETWEEN $1 AND $2) AND (LOWER(title) LIKE $3)
+                    WHERE (row_num BETWEEN $2 AND $3) AND (LOWER(title) LIKE $4)
                     ORDER BY id ASC;
                     `,
-                    values: [from, to, `%${filterBy.toLowerCase().trim()}%`]
+                    values: [subject, +from, +to, `%${filterBy.toLowerCase().trim()}%`]
                 };
             } else if ((!from || !to) && filterBy) {
                 query = {
-                    text: `SELECT * FROM post WHERE LOWER(title) LIKE $1 ORDER BY id ASC`,
-                    values: [`%${filterBy.toLowerCase().trim()}%`]
+                    text: `
+                    WITH afterSubject AS (
+                        SELECT *
+                        FROM post
+                        WHERE subject = $1
+                    )
+                    SELECT * FROM afterSubject WHERE LOWER(title) LIKE $2 ORDER BY id ASC`,
+                    values: [subject, `%${filterBy.toLowerCase().trim()}%`]
                 };
             } else if ((from && to) && !filterBy) {
                 query = {
                     text: `
+                    WITH afterSubject AS (
+                        SELECT *
+                        FROM post
+                        WHERE subject = $1
+                    )
                     SELECT *
-                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM post)
-                    WHERE row_num BETWEEN $1 AND $2`,
-                    values: [from, to]
+                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM afterSubject)
+                    WHERE row_num BETWEEN $2 AND $3`,
+                    values: [subject, +from, +to]
                 };
             } else {
                 query = {
-                    text: "SELECT * FROM post ORDER BY id ASC",
-                    values: []
+                    text: `
+                    WITH afterSubject AS (
+                        SELECT *
+                        FROM post
+                        WHERE subject = $1
+                    )
+                    SELECT * FROM afterSubject ORDER BY id ASC`,
+                    values: [subject]
                 };
             }
             const dataArray = await this.client.query(query);

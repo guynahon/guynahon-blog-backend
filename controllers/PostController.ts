@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
-import { FilterAndPage } from '../models/TypeFilterAndPage'
+import { SubjectAndFilterAndPage } from '../models/TypeSubjectAndFilterAndPage'
 
 
 export class PostController {
@@ -13,6 +13,7 @@ export class PostController {
 
     async addPost(req: Request, res: Response): Promise<void> {
         const postData = req.body;
+        
         const post = new Post(
             null,
             postData.title,
@@ -22,6 +23,7 @@ export class PostController {
         );
         try {
         await this.postServices.addPost(post)
+        
         res.status(201).send('post created!')
         } catch(error) {
             res.status(404).send((error as Error).message)
@@ -29,14 +31,16 @@ export class PostController {
     }
 
     async getPosts (req: Request, res: Response): Promise<void> {
-        const bodyData = req.body;
-        const filterAndPageData: FilterAndPage = {
-            from: parseInt(bodyData.from),
-            to: parseInt(bodyData.to),
-            filterBy: bodyData.filterBy
+
+        const subjectAndFilterAndPageData: SubjectAndFilterAndPage = {
+            subject: req.query.subject as string,
+            from: req.query.from as number | undefined,
+            to: req.query.to as number | undefined,
+            filterBy: req.query.filterBy as string | undefined
         }
+
         try {
-            const postsList = await this.postServices.getPosts(filterAndPageData);
+            const postsList = await this.postServices.getPosts(subjectAndFilterAndPageData);
             res.status(200).send(postsList);
         } catch(error) {
             res.status(404).send((error as Error).message);

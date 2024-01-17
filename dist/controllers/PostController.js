@@ -21,9 +21,11 @@ class PostController {
     addPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postData = req.body;
+            console.log(postData);
             const post = new Post_1.default(null, postData.title, postData.body, postData.subject, postData.date);
             try {
                 yield this.postServices.addPost(post);
+                console.log("success");
                 res.status(201).send('post created!');
             }
             catch (error) {
@@ -33,14 +35,14 @@ class PostController {
     }
     getPosts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const bodyData = req.body;
-            const filterAndPageData = {
-                from: parseInt(bodyData.from),
-                to: parseInt(bodyData.to),
-                filterBy: bodyData.filterBy
+            const subjectAndFilterAndPageData = {
+                subject: req.query.subject,
+                from: req.query.from,
+                to: req.query.to,
+                filterBy: req.query.filterBy
             };
             try {
-                const postsList = yield this.postServices.getPosts(filterAndPageData);
+                const postsList = yield this.postServices.getPosts(subjectAndFilterAndPageData);
                 res.status(200).send(postsList);
             }
             catch (error) {

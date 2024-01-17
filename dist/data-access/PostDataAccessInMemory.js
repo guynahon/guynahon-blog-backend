@@ -18,6 +18,9 @@ class PostDataAccessInMemory {
     constructor() {
         this.db = InMemoryDB_1.default.getInstance();
     }
+    clearPosts() {
+        throw new Error("Method not implemented.");
+    }
     //post methods
     addPost(post) {
         return __awaiter(this, void 0, void 0, function* () {

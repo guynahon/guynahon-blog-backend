@@ -1,4 +1,4 @@
-import { FilterAndPage } from "../models/TypeFilterAndPage";
+import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import Post from "../models/Post";
 
 class InMemoryDB {
@@ -20,7 +20,7 @@ class InMemoryDB {
         // this.posts.set(post.id, post);
     }
 
-    getPosts(filteringAndPagingData: FilterAndPage): Array<Post> {
+    getPosts(filteringAndPagingData: SubjectAndFilterAndPage): Array<Post> {
          let postsArray = Array.from(this.posts.values());
          const from = filteringAndPagingData.from;
          const to = filteringAndPagingData.to;

@@ -1,5 +1,5 @@
 import { PostDataAccessSQL } from "../data-access/PostDataAccessSQL";
-import { FilterAndPage } from "../models/TypeFilterAndPage";
+import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import Post from "../models/Post";
 
 export class PostServices {
@@ -18,8 +18,8 @@ export class PostServices {
         }
     }
 
-    async getPosts(filterAndPageData: FilterAndPage): Promise<Array<Post>>{
-        const postsList = await this.postDataAccess.getPosts(filterAndPageData);
+    async getPosts(subjectAndFilterAndPageData: SubjectAndFilterAndPage): Promise<Array<Post>>{
+        const postsList = await this.postDataAccess.getPosts(subjectAndFilterAndPageData);
         if (postsList) {
             return postsList;
         } else {

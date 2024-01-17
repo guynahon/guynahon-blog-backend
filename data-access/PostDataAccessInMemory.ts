@@ -1,9 +1,12 @@
 import Post from "../models/Post";
 import { IPostDataAccess } from "./IPostDataAccess";
 import InMemoryDB from '../DataBase/InMemoryDB'
-import { FilterAndPage } from "../models/TypeFilterAndPage";
+import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 
 export class PostDataAccessInMemory implements IPostDataAccess<Post> {
+    clearPosts(): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
     private db = InMemoryDB.getInstance();
 
     //post methods
@@ -12,7 +15,7 @@ export class PostDataAccessInMemory implements IPostDataAccess<Post> {
         await this.db.addPost(post);
     }
 
-    async getPosts(filterAndPageData: FilterAndPage): Promise<Array<Post>> {
+    async getPosts(filterAndPageData: SubjectAndFilterAndPage): Promise<Array<Post>> {
         const postsList = await this.db.getPosts(filterAndPageData);
         if (!postsList) {
             throw new Error("there are no posts")
