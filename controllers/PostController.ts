@@ -80,7 +80,6 @@ export class PostController {
 
     async removePost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
-        console.log(postId);
         
         try {
             await this.postServices.removePost(postId);

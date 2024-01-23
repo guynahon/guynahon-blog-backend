@@ -8,50 +8,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const addPostToDB = (post) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const newPost = {
-            "title": post.title,
-            "body": post.body,
-            "subject": post.subject,
-            "date": post.date
-        };
-        yield fetch(`http://localhost:5000/post/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newPost)
-        });
-    }
-    catch (error) {
-        console.error("error in adding post", error);
-    }
-});
-const getPostFromDB = (postId) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield fetch(`http://localhost:5000/post/${postId}`);
-        const jsonData = yield response.json();
-        return jsonData;
-    }
-    catch (error) {
-        console.error('Error fetching post:', error);
-    }
-});
-describe('All Posts API', () => {
-    it('Adds a new post then checks it and then deletes it', () => __awaiter(void 0, void 0, void 0, function* () {
-        const dataToSend = {
-            "title": "my name is guy",
-            "body": "im 28 y/o (almost 29)",
-            "subject": "dailydigest",
-            "date": "24-04-95"
-        };
-        addPostToDB(dataToSend);
-        const res = yield getPostFromDB(67);
-        console.log(res.title);
-        console.log(dataToSend.title);
-        expect(dataToSend.title).toBe(res.title);
-        expect(dataToSend.body).toBe(res.body);
-        expect(dataToSend.subject).toBe(res.subject);
-    }));
+describe('API Tests', () => {
+    let id = 102;
+    describe('POST /post', () => {
+        it('should create a new post and return a 201 status', () => __awaiter(void 0, void 0, void 0, function* () {
+            const postData = {
+                "title": "my name is guy",
+                "body": "im 28 y/o (almost 29)",
+                "subject": "dailydigest",
+                "date": "24-04-95"
+            };
+            const response = yield fetch('http://localhost:5000/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
+            expect(response.status).toBe(201);
+        }));
+    });
+    describe('GET /post/:id', () => {
+        it('return the posts by the id', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield fetch(`http://localhost:5000/post/${id}`);
+            const responseJson = yield response.json();
+            expect(response.status).toBe(200);
+            expect("my name is guy").toBe(responseJson.title);
+        }));
+    });
+    describe('DELETE /post/:id', () => {
+        it('deletes post by id', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield fetch(`http://localhost:5000/post/${id}/`, { method: 'DELETE' });
+            expect(response.status).toBe(200);
+            id += 1;
+        }));
+    });
 });

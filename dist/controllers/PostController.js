@@ -21,11 +21,9 @@ class PostController {
     addPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postData = req.body;
-            console.log(postData);
             const post = new Post_1.default(null, postData.title, postData.body, postData.subject, postData.date);
             try {
                 yield this.postServices.addPost(post);
-                console.log("success");
                 res.status(201).send('post created!');
             }
             catch (error) {
@@ -89,7 +87,6 @@ class PostController {
     removePost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const postId = parseInt(req.params.id);
-            console.log(postId);
             try {
                 yield this.postServices.removePost(postId);
                 res.status(200).send('post removed');
