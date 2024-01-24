@@ -1,6 +1,6 @@
 import express from "express";
 import PostRoutes from './routes/PostRoutes';
-import OAuthRoutes from './routes/RequestAuthRoutes';
+import OAuthRoutes from './routes/OAuthRoutes';
 import RequestAuthRoutes from './routes/RequestAuthRoutes';
 import cors from 'cors';
 

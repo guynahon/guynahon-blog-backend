@@ -16,7 +16,6 @@ const getUserData = async (access_token: string | undefined | null) => {
 };
 
 router.get('/', async (req: Request, res: Response) => {
-    console.log("oauth here!");
     
     const code: any  = req.query.code;
     try {
@@ -26,7 +25,6 @@ router.get('/', async (req: Request, res: Response) => {
             process.env.CLIENT_SECRET,
             redirectUrl
         );
-        console.log("still here");
         
         const response = await oAuth2Client.getToken(code);
         await oAuth2Client.setCredentials(response.tokens);
@@ -34,10 +32,12 @@ router.get('/', async (req: Request, res: Response) => {
         const user = oAuth2Client.credentials;
         console.log('credentials', user);
         await getUserData(user.access_token);
-        console.log("done :)!!!!");
+
     } catch (error) {
         console.log("Error with signing in with google!");
         
+    } finally {
+        res.redirect('http://localhost:3000');
     }
 });
 
