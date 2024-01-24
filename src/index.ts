@@ -1,5 +1,7 @@
 import express from "express";
 import PostRoutes from './routes/PostRoutes';
+import OAuthRoutes from './routes/RequestAuthRoutes';
+import RequestAuthRoutes from './routes/RequestAuthRoutes';
 import cors from 'cors';
 
 const app = express();
@@ -10,5 +12,7 @@ app.use(cors({
 }));
 
 app.use("/post", PostRoutes);
+app.use('/request', RequestAuthRoutes);
+app.use("/oauth", OAuthRoutes);
 
 app.listen(port, () => console.log(`app listeing on port ${port}`));
