@@ -45,7 +45,6 @@ const callAddUser = async (profile: any) => {
 
 router.post("/", async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
         
         if (req.body.credential) {
             const verificationResponse = await verifyGoogleToken(req.body.credential);
@@ -60,13 +59,12 @@ router.post("/", async (req: Request, res: Response) => {
     
             const getTheUser = await checkUser(profile.sub);  
             
-            if (!getTheUser) {
-                console.log("UP");
-                
+            if (!getTheUser) { 
                 callAddUser({sub: profile.sub, email: profile.email});
                 res.status(201).json({
                     message: "Signup was successful",
                     user: {
+                        id: profile?.sub,
                         firstName: profile?.given_name,
                         lastName: profile?.family_name,
                         picture: profile?.picture,
@@ -77,11 +75,10 @@ router.post("/", async (req: Request, res: Response) => {
                     },
                 });
             } else {
-                console.log("IN");
-
                 res.status(200).json({
                     message: "SignIn was successful",
                     user: {
+                        id: profile?.sub,
                         firstName: profile?.given_name,
                         lastName: profile?.family_name,
                         picture: profile?.picture,

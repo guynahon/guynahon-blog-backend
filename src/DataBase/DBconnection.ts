@@ -12,7 +12,7 @@ const client: Client = new Client({
 async function blogConnect() {
     try {
         await client.connect();
-        console.log("connect to postgres");        
+        console.log("connected to postgresql");        
     } catch (error) {
         console.error("error connecting to postgres"+error);
     }
