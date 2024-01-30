@@ -1,11 +1,16 @@
 import {Client} from 'pg';
-import { postgresPassword } from '../DataBasePassword';
+require("dotenv/config");
 
 const client: Client = new Client({
+    // user: 'szzkvkwh',
+    // host: 'rogue.db.elephantsql.com',
+    // database: 'szzkvkwh',
+    // password: process.env.POSTGRESS_PASSWORD,
+    // port: 5432
     user: 'postgres',
     host: 'localhost',
     database: 'Blog',
-    password: postgresPassword,
+    password: process.env.LOCAL_POSTGRES_PASSWORD,
     port: 5432
 });
 
