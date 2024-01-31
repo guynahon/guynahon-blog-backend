@@ -5,14 +5,16 @@ const client: Client = new Client({
     // user: 'szzkvkwh',
     // host: 'rogue.db.elephantsql.com',
     // database: 'szzkvkwh',
-    // password: process.env.POSTGRESS_PASSWORD,
+    // password: 'C5ySi8NstjJ6YOHFJoqV7eI_k9avUJ-_',
     // port: 5432
-    user: 'postgres',
-    host: 'localhost',
-    database: 'Blog',
-    password: process.env.LOCAL_POSTGRES_PASSWORD,
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
     port: 5432
 });
+
+
 
 async function blogConnect() {
     try {

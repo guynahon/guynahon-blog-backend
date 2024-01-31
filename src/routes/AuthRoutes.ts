@@ -21,7 +21,7 @@ async function verifyGoogleToken(token: any) {
 
 const checkUser = async (sub: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/users/${sub}`);      
+      const response = await fetch(`${process.env.SERVER_ROUTE}/users/${sub}`);      
       const user = await response.json();
       if (user) {
         return true;
@@ -33,7 +33,7 @@ const checkUser = async (sub: number) => {
 
 
 const callAddUser = async (profile: any) => {
-    await fetch(`http://localhost:5000/users/`, {
+    await fetch(`${process.env.SERVER_ROUTE}/users/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
