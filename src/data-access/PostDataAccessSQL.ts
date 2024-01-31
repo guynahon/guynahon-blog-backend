@@ -70,7 +70,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
                         WHERE subject = $1
                     )
                     SELECT *
-                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM afterSubject)
+                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM afterSubject) AS afterSubjectNumbered
                     WHERE row_num BETWEEN $2 AND $3`,
                     values: [subject, +from, +to]
                 };
