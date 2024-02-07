@@ -69,11 +69,13 @@ router.post("/", async (req: Request, res: Response) => {
                         lastName: profile?.family_name,
                         picture: profile?.picture,
                         email: profile?.email,
-                        token: jwt.sign({ email: profile?.email }, "myScret", {
+                        token: jwt.sign({ email: profile?.email }, process.env.JWT_SECRET, {
                             expiresIn: "1d",
                         }),
                     },
                 });
+                console.log(process.env.JWT_SECRET);
+
             } else {
                 res.status(200).json({
                     message: "SignIn was successful",
@@ -83,11 +85,13 @@ router.post("/", async (req: Request, res: Response) => {
                         lastName: profile?.family_name,
                         picture: profile?.picture,
                         email: profile?.email,
-                        token: jwt.sign({ email: profile?.email }, "myScret", {
+                        token: jwt.sign({ email: profile?.email }, process.env.JWT_SECRET, {
                             expiresIn: "1d",
                         }),
                     },
                 });
+                console.log(process.env.JWT_SECRET);
+                
             }
         }
     } catch (error) {

@@ -7,9 +7,8 @@ const client: Client = new Client({
     database: process.env.POSTGRES_DATABASE,
     password: process.env.POSTGRES_PASSWORD,
     port: 5432,
-    ssl: true
+    // ssl: true
 });
-
 
 
 async function blogConnect() {
