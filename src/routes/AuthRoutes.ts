@@ -61,36 +61,38 @@ router.post("/", async (req: Request, res: Response) => {
             
             if (!getTheUser) { 
                 callAddUser({sub: profile.sub, email: profile.email});
+                const payload = {
+                    id: profile?.sub,
+                    firstName: profile?.given_name,
+                    lastName: profile?.family_name,
+                    picture: profile?.picture,
+                    email: profile?.email
+                };
                 res.status(201).json({
                     message: "Signup was successful",
                     user: {
-                        id: profile?.sub,
-                        firstName: profile?.given_name,
-                        lastName: profile?.family_name,
-                        picture: profile?.picture,
-                        email: profile?.email,
-                        token: jwt.sign({ email: profile?.email }, process.env.JWT_SECRET, {
+                        token: jwt.sign(payload, process.env.JWT_SECRET, {
                             expiresIn: "1d",
                         }),
                     },
                 });
-                console.log(process.env.JWT_SECRET);
 
             } else {
+                const payload = {
+                    id: profile?.sub,
+                    firstName: profile?.given_name,
+                    lastName: profile?.family_name,
+                    picture: profile?.picture,
+                    email: profile?.email
+                };
                 res.status(200).json({
                     message: "SignIn was successful",
                     user: {
-                        id: profile?.sub,
-                        firstName: profile?.given_name,
-                        lastName: profile?.family_name,
-                        picture: profile?.picture,
-                        email: profile?.email,
-                        token: jwt.sign({ email: profile?.email }, process.env.JWT_SECRET, {
+                        token: jwt.sign(payload, process.env.JWT_SECRET, {
                             expiresIn: "1d",
                         }),
                     },
                 });
-                console.log(process.env.JWT_SECRET);
                 
             }
         }

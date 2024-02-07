@@ -8,9 +8,7 @@ const router = express.Router();
 const userController = new UserController(new UserServices(new UserDataAccess()));
 
 router.post('/', async (req: Request, res: Response) => await userController.addUser(req, res));
-// router.get('/', async (req: Request, res: Response) => await userController.getUsers(req, res));
 router.get('/:id', async (req: Request, res: Response) => await userController.getUser(req, res));
-
 
 
 export default router;
