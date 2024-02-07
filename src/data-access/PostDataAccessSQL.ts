@@ -13,8 +13,8 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
     async addPost(post: Post): Promise<void> {
         try {
             const query = {
-                text: "INSERT INTO post (title, body, subject, date) VALUES ($1, $2, $3, $4)",
-                values: [post.title, post.body, post.subject, post.date]
+                text: "INSERT INTO post (title, body, subject, date, posted_by) VALUES ($1, $2, $3, $4, $5)",
+                values: [post.title, post.body, post.subject, post.date, post.posted_by]
             };
             await this.client.query(query);
         } catch(error) {
@@ -93,7 +93,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
                 const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
                 const year = post.date.getFullYear().toString();
                 
-                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`));
+                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`, post.posted_by));
             }
             return postsArray;
 

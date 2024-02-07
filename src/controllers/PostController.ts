@@ -19,12 +19,14 @@ export class PostController {
             postData.title,
             postData.body,
             postData.subject,
-            postData.date
+            postData.date,
+            postData.posted_by
         );
+
         try {
-        await this.postServices.addPost(post)
-        
-        res.status(201).send('post created!')
+            await this.postServices.addPost(post);
+            res.status(201).send('post created!');
+            
         } catch(error) {
             res.status(404).send((error as Error).message)
         }
