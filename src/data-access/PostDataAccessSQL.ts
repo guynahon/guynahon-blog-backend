@@ -13,8 +13,8 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
     async addPost(post: Post): Promise<void> {
         try {
             const query = {
-                text: "INSERT INTO post (title, body, subject, date, posted_by) VALUES ($1, $2, $3, $4, $5)",
-                values: [post.title, post.body, post.subject, post.date, post.posted_by]
+                text: "INSERT INTO post (title, body, subject, date, image_url, posted_by) VALUES ($1, $2, $3, $4, $5, $6)",
+                values: [post.title, post.body, post.subject, post.date, post.image_url, post.posted_by]
             };
             await this.client.query(query);
         } catch(error) {
@@ -93,7 +93,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
                 const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
                 const year = post.date.getFullYear().toString();
                 
-                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`, post.posted_by));
+                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`, post.image_url, post.posted_by));
             }
             return postsArray;
 
@@ -133,8 +133,8 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         const existingPost = await this.getPost(id);
         const updatedPost = {...existingPost, ...editDetails}; 
         try {
-            const query = `UPDATE post SET title = $1, body = $2, subject = $3, date = $4 WHERE id = $5`;
-            await this.client.query(query, [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.date, id]);
+            const query = `UPDATE post SET title = $1, body = $2, subject = $3, date = $4, image_url = $5 WHERE id = $6`;
+            await this.client.query(query, [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.image_url, updatedPost.date, id]);
         } catch(error) {
             console.error((error as Error).message);
             throw error; 

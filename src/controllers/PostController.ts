@@ -20,6 +20,7 @@ export class PostController {
             postData.body,
             postData.subject,
             postData.date,
+            postData.image_url,
             postData.posted_by
         );
 
