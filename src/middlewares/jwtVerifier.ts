@@ -3,18 +3,33 @@ const jwt = require("jsonwebtoken");
 require('dotenv/config');
 
 export const jwtUserVerifier = (req: Request, res: Response, next: NextFunction) => {
+
     try {
-        const token = req.headers.token;        
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        const timeStamp = payload.exp - ((Math.floor(Date.now() / 1000)));
-        if (timeStamp < 0) {
-            throw new Error('token expired!');
+        const token = req.headers.token;
+        
+        if (token === 'undefined') {
+            throw new Error('Unauthorized');
         }
+        
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+        
+
+        const timeStamp = payload.exp - ((Math.floor(Date.now() / 1000)));
+        if (timeStamp < 0) {            
+            throw new Error('jwt expired');
+        }
+
+        if (payload.id !== req.query.id) {
+            throw new Error('Unauthorized');
+        }
+
         next();
 
     } catch (err) {
-        console.error((err as Error).message);
-        res.status(401).send("Unauthorized");
+        const messege = (err as Error).message;
+        console.error(messege);
+        res.status(401).send(messege);
     }
 };
 
@@ -25,11 +40,12 @@ export const jwtAdminVerifier = async (req: Request, res: Response, next: NextFu
         if (token === 'undefined') {
             throw new Error('Unauthorized');
         }
-
+        
         const payload = jwt.verify(token, process.env.JWT_SECRET);
+
         const timeStamp = payload.exp - ((Math.floor(Date.now() / 1000)));
-        if (timeStamp < 0) {
-            throw new Error('Expired Token');
+        if (timeStamp < 0) {            
+            throw new Error('jwt expired');
         }
 
         const adminPromise = await fetch(`${process.env.SERVER_ROUTE}/users/${payload.id}`);
@@ -41,8 +57,9 @@ export const jwtAdminVerifier = async (req: Request, res: Response, next: NextFu
         next();
 
     } catch (err) {
-        console.error((err as Error).message);
-        res.status(401).send((err as Error).message);
+        const messege = (err as Error).message;
+        console.error(messege);
+        res.status(401).send(messege);
     }
 };
 

@@ -1,6 +1,6 @@
 import Post from "../models/Post";
 import { IPostDataAccess } from "./IPostDataAccess";
-import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
+import { IdAndFilterAndPage, SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import { Client } from "pg";
 import { getClient } from "../DataBase/DBconnection";
 
@@ -107,6 +107,58 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         try {
             const query = "DELETE FROM post";
             await this.client.query(query);
+        } catch (error) {
+            console.error((error as Error).message);
+            throw error;
+        }
+    }
+
+    async getPostsByUserId(idAndFilterAndPageData: IdAndFilterAndPage): Promise<Post[]> {
+        const id = idAndFilterAndPageData.id;
+        const from = idAndFilterAndPageData.from;
+        const to = idAndFilterAndPageData.to;
+        const filterBy = idAndFilterAndPageData.filterBy;
+        let query;
+        try {
+            if(from && to) {
+                query = {
+                    text: `
+                    WITH afterId AS (
+                        SELECT *
+                        FROM post
+                        WHERE posted_by LIKE $1
+                    )
+                    SELECT *
+                    FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY id ASC) as row_num FROM afterId) AS afterIdNumbered
+                    WHERE row_num BETWEEN $2 AND $3`,
+                    values: [id, +from, +to]
+                }
+            }
+            else if(filterBy) {
+                query = {
+                    text: `
+                    WITH afterId AS (
+                        SELECT *
+                        FROM post
+                        WHERE posted_by LIKE $1
+                    )
+                    SELECT * FROM afterId WHERE LOWER(title) LIKE $2 ORDER BY id ASC`,
+                    values: [id, `%${filterBy.toLowerCase().trim()}%`]
+                };
+            } else {
+                throw new Error('cant fetch the posts.');
+            }
+            const dataArray = await this.client.query(query);
+            const postsArray: Array<Post> = [];
+            for (let post of dataArray.rows) {
+                const day = post.date.getDate().toString().padStart(2, '0');
+                const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
+                const year = post.date.getFullYear().toString();
+                
+                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`, post.image_url, post.posted_by));
+            }
+            return postsArray;
+
         } catch (error) {
             console.error((error as Error).message);
             throw error;

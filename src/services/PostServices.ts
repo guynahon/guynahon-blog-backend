@@ -1,5 +1,5 @@
 import { PostDataAccessSQL } from "../data-access/PostDataAccessSQL";
-import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
+import { SubjectAndFilterAndPage, IdAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import Post from "../models/Post";
 
 export class PostServices {
@@ -32,6 +32,15 @@ export class PostServices {
             await this.postDataAccess.clearPosts();
         } catch (error) {
             throw new Error(`Unable to clear posts: ${(error as Error).message}`);
+        }
+    }
+
+    async getPostsByUserId(idAndFilterAndPageData: IdAndFilterAndPage): Promise<Array<Post>>{
+        const postsList = await this.postDataAccess.getPostsByUserId(idAndFilterAndPageData);
+        if (postsList) {
+            return postsList;
+        } else {
+            throw new Error("there are no posts");
         }
     }
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
-import { SubjectAndFilterAndPage } from '../models/TypeSubjectAndFilterAndPage'
+import { SubjectAndFilterAndPage, IdAndFilterAndPage } from '../models/TypeSubjectAndFilterAndPage'
 
 
 export class PostController {
@@ -57,6 +57,24 @@ export class PostController {
         } catch(error) {
             res.status(404).send("failed clearing all posts")
         }
+    }
+
+
+    async getPostsByUserId(req: Request, res: Response): Promise<void> {
+        const idAndFilterAndPageData: IdAndFilterAndPage = {
+            id: req.query.id as string,
+            from: req.query.from as number | undefined,
+            to: req.query.to as number | undefined,
+            filterBy: req.query.filterBy as string | undefined
+        }
+
+        try {
+            const postsList = await this.postServices.getPostsByUserId(idAndFilterAndPageData);
+            res.status(200).send(postsList);
+        } catch(error) {
+            res.status(404).send((error as Error).message);
+        }
+
     }
 
     async getPost(req: Request, res: Response): Promise<void> {
