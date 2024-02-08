@@ -134,7 +134,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         const updatedPost = {...existingPost, ...editDetails}; 
         try {
             const query = `UPDATE post SET title = $1, body = $2, subject = $3, date = $4, image_url = $5 WHERE id = $6`;
-            await this.client.query(query, [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.image_url, updatedPost.date, id]);
+            await this.client.query(query, [updatedPost.title, updatedPost.body, updatedPost.subject, updatedPost.date, updatedPost.image_url, id]);
         } catch(error) {
             console.error((error as Error).message);
             throw error; 
