@@ -14,7 +14,9 @@ export class UserController {
         
         const user = new User(
             userData.sub,
-            userData.email
+            userData.email,
+            userData.firstName,
+            userData.lastName
         );
         
         try {

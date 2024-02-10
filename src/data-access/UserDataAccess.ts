@@ -13,8 +13,8 @@ export class UserDataAccess {
     async addUser(user: User): Promise<void> {
         try {
             const query = {
-                text: "INSERT INTO users (id, email, admin) VALUES ($1, $2, $3)",
-                values: [user.id, user.email, false]
+                text: "INSERT INTO users (id, email, first_name, last_name, admin) VALUES ($1, $2, $3, $4, $5)",
+                values: [user.id, user.email, user.firstName, user.lastName, false]
             };
             await this.client.query(query);
         } catch(error) {

@@ -55,12 +55,12 @@ router.post("/", async (req: Request, res: Response) => {
                 });
             }
     
-            const profile = verificationResponse?.payload;
+            const profile = verificationResponse?.payload;            
     
             const getTheUser = await checkUser(profile.sub);  
             
             if (!getTheUser) { 
-                callAddUser({sub: profile.sub, email: profile.email});
+                callAddUser({sub: profile.sub, email: profile.email, firstName: profile.given_name, lastName: profile.family_name});
                 const payload = {
                     id: profile?.sub,
                     firstName: profile?.given_name,
