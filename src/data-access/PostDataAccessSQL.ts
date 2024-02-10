@@ -165,6 +165,33 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         }
     }
 
+    async getPostsByUserLastName(lastName: string | undefined): Promise<Post[]> {
+        const last_name = lastName?.toLowerCase();
+        try {
+            const query = {
+                text: `
+                SELECT *
+                FROM post INNER JOIN users on post.posted_by = users.id
+                WHERE LOWER(users.last_name) = $1`,
+                values: [last_name]
+            }
+
+            const dataArray = await this.client.query(query);
+            const postsArray: Array<Post> = [];
+            for (let post of dataArray.rows) {
+                const day = post.date.getDate().toString().padStart(2, '0');
+                const month = (post.date.getMonth() + 1).toString().padStart(2, '0');
+                const year = post.date.getFullYear().toString();
+                postsArray.push(new Post(post.id, post.title, post.body, post.subject, `${year}-${month}-${day}`, post.image_url, post.posted_by));
+            }
+            return postsArray;
+
+        } catch (error) {
+            console.error((error as Error).message);
+            throw error;
+        }
+    }
+
 
     async getPost(id: number): Promise<Post> {
         try {

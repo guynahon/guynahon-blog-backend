@@ -12,6 +12,13 @@ export class PostServices {
 
     async addPost(post: Post): Promise<void>{
         try {
+            if (
+                (post.title.length > 100 || post.title.length < 5) ||
+                post.body.length < 5 ||
+                !["dailydigest", "designtools", "tutorials"].includes(post.subject)
+            ) {
+                throw new Error(" one or more field are incorrect")
+            }
             await this.postDataAccess.addPost(post);
         } catch(error) {
             throw new Error(`Unable to add post: ${(error as Error).message}`);
@@ -44,6 +51,15 @@ export class PostServices {
         }
     }
 
+    async getPostsByUserLastName(lastName: string): Promise<Array<Post>> {
+        if (lastName) {
+            const postsList = await this.postDataAccess.getPostsByUserLastName(lastName);
+            return postsList;
+        } else {
+            throw new Error("last name is undefined");
+        }
+    }
+
     async getPost(postId: number): Promise<Post> {
         const post = await this.postDataAccess.getPost(postId);
         if (post) {
@@ -55,6 +71,13 @@ export class PostServices {
 
     async editPost(postId: number, editDetails: Partial<Post>): Promise<void> {
         try {
+            if (
+                (editDetails.title && (editDetails.title.length > 100 || editDetails.title.length < 5)) ||
+                (editDetails.body && editDetails.body.length < 5) ||
+                (editDetails.subject && !["dailydigest", "designtools", "tutorials"].includes(editDetails.subject))
+            ) {
+                throw new Error(" one or more field are incorrect")
+            }
         await this.postDataAccess.editPost(postId, editDetails);
         } catch {
             throw new Error(`unable to update post with the ID : ${postId}`);

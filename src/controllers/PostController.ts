@@ -77,6 +77,19 @@ export class PostController {
 
     }
 
+    async getPostsByUserLastName(req: Request, res: Response): Promise<void> {
+        try {
+            const lastName = req.query?.lastName?.toString();
+            if (!lastName) {
+                throw new Error("parameter undefined")
+            }
+            const postsList = await this.postServices.getPostsByUserLastName(lastName);
+            res.status(200).send(postsList);
+        } catch(error) {
+            res.status(404).send((error as Error).message);
+        }
+    }
+
     async getPost(req: Request, res: Response): Promise<void> {
         const postId = parseInt(req.params.id);
         try {
