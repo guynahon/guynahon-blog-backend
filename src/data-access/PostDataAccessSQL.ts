@@ -170,7 +170,7 @@ export class PostDataAccessSQL implements IPostDataAccess<Post> {
         try {
             const query = {
                 text: `
-                SELECT *
+                SELECT post.id, post.title, post.body, post.subject, post.date, post.image_url, post.posted_by
                 FROM post INNER JOIN users on post.posted_by = users.id
                 WHERE LOWER(users.last_name) = $1`,
                 values: [last_name]
