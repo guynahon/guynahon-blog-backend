@@ -3,7 +3,6 @@ import Post from '../models/Post'
 import { PostServices } from "../services/PostServices";
 import { SubjectAndFilterAndPage, IdAndFilterAndPage } from '../models/TypeSubjectAndFilterAndPage'
 
-
 export class PostController {
     private postServices: PostServices;
 

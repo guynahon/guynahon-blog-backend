@@ -2,7 +2,6 @@ import { UserDataAccess } from "../data-access/UserDataAccess";
 import User from "../models/User";
 
 export class UserServices {
-
     private userDataAccess: UserDataAccess;
 
     constructor(userDataAccess: UserDataAccess) {
@@ -17,8 +16,6 @@ export class UserServices {
         }
     }
 
-
-    
     async getUser(userId: string): Promise<User> {
         const user = await this.userDataAccess.getUser(userId);
         if (user) {
@@ -27,5 +24,4 @@ export class UserServices {
             throw new Error(`user with the ID ${userId} not found !`);
         }
     }
-
 }

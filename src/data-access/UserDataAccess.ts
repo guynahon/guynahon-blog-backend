@@ -1,14 +1,13 @@
 import { Client } from "pg";
-import { getClient } from "../DataBase/DBconnection";
+import { client } from "../DataBase/DBconnection";
 import User from "../models/User";
-
 
 export class UserDataAccess {
     private client: Client;
+    
     constructor() {
-        this.client = getClient();
+        this.client = client;
     }
-
 
     async addUser(user: User): Promise<void> {
         try {
@@ -36,5 +35,4 @@ export class UserDataAccess {
             throw error;
         }
     }
-
 }

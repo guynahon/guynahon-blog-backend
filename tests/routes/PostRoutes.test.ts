@@ -6,8 +6,6 @@ describe('API CRUD Tests', () => {
     let id = 16;
     const globalUrl = 'http://localhost:5000/post/';
 
-
-
     it('should create a new post and return a 201 status', async () => {
         const postData = {
             "title": "my name is guy",
@@ -26,7 +24,6 @@ describe('API CRUD Tests', () => {
             },
             body: JSON.stringify(postData),
         });
-
         expect(response.status).toBe(201);
     });
 
@@ -36,12 +33,10 @@ describe('API CRUD Tests', () => {
         const response = await fetch(globalUrl+id);
         const responseJson = await response.json();
 
-
         expect(response.status).toBe(200);
         expect("my name is guy").toBe(responseJson.title);
         
     });
-
 
     it('edit the post by the id and new content', async () => {
         const editData = {
@@ -63,7 +58,6 @@ describe('API CRUD Tests', () => {
         const response2 = await fetch(globalUrl+id);
         const responseJson2 = await response2.json();
 
-        
         expect("im a new title").toBe(responseJson2.title);
         expect("tutorials").toBe(responseJson2.subject);
         expect("http://somethingelse.png").toBe(responseJson2.image_url);
@@ -116,7 +110,6 @@ describe('API posts by user tests', () => {
     });
 });
 
-
 describe('API posts by last name', () => {
     const globalUrl = 'http://localhost:5000/post';
 
@@ -125,6 +118,5 @@ describe('API posts by last name', () => {
         const responseJson = await response.json();
 
         expect(responseJson.length).toBe(4);
-        
     });
 });

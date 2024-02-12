@@ -2,12 +2,13 @@ import Post from "../models/Post";
 import { IPostDataAccess } from "./IPostDataAccess";
 import { IdAndFilterAndPage, SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 import { Client } from "pg";
-import { getClient } from "../DataBase/DBconnection";
+import { client } from "../DataBase/DBconnection";
 
 export class PostDataAccessSQL implements IPostDataAccess<Post> {
     private client: Client;
+    
     constructor() {
-        this.client = getClient();
+        this.client = client;
     }
 
     async addPost(post: Post): Promise<void> {

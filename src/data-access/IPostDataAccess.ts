@@ -1,7 +1,6 @@
 import { SubjectAndFilterAndPage } from "../models/TypeSubjectAndFilterAndPage";
 
 export interface IPostDataAccess <T> {
-    
     addPost(post: T): Promise<void>;
     getPosts(filterAndPageData: SubjectAndFilterAndPage): Promise<Array<T>>;
     clearPosts(): Promise<void>;

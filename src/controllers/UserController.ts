@@ -38,5 +38,4 @@ export class UserController {
             res.status(404).send((error as Error).message)
         }
     }
-
 }

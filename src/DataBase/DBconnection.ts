@@ -1,7 +1,7 @@
 import {Client} from 'pg';
 require("dotenv/config");
 
-const client: Client = new Client({
+export const client: Client = new Client({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
     database: process.env.POSTGRES_DATABASE,
@@ -10,7 +10,6 @@ const client: Client = new Client({
     port: 5432,
     // ssl: true
 });
-
 
 async function blogConnect() {
     try {
@@ -22,7 +21,3 @@ async function blogConnect() {
 }
 
 blogConnect();
-
-export function getClient(): Client {
-    return client;
-}
