@@ -2,4 +2,3 @@ node_modules
 DataBasePassword.ts
 route.rest
 dist
-.env
