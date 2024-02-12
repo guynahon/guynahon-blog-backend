@@ -1,4 +1,4 @@
-// when testing need to remove the jwt middleware from the routes and change the db name!!!
+// when testing change the database attribure in DBconnection.ts to "testblog"
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwOTkzMjM3MzAxOTk5NzkyMzQwMSIsImZpcnN0TmFtZSI6Ikd1eSIsImxhc3ROYW1lIjoiTmFob24iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jS3g0d1Nmcmx4eG1Vc0RyVVJ5d2MyeThudmRvcXFWZDJULTJXU1ZvWF9JPXM5Ni1jIiwiZW1haWwiOiJndXkubmFob25AZ3J1bml0ZWNoLmNvbSIsImlhdCI6MTcwNzY2NDk4NywiZXhwIjoxNzM5MjIyNTg3fQ.MLKEEgNIcJ_00FpkAWBpUlDA2o9akm3Xgkdc1FqqLlo"
 
 describe('API CRUD Tests', () => {
