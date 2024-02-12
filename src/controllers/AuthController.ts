@@ -11,14 +11,12 @@ export class AuthController {
         this.authServices = authServices;
     }
 
-
     async handleGoogleUser(req: Request, res: Response) {
         try {
             const resList = await this.authServices.handleGoogleUser(req.body);
             const status = resList[0];
             const payload = resList[1];
             if (status === 200) {
-                console.log("sign in is ok");
                 res.status(200).json({
                     message: "SignIn was successful",
                     user: {
@@ -28,8 +26,6 @@ export class AuthController {
                     },
                 });
             } else if (status === 201) {
-                console.log("sign up is ok");
-                
                 res.status(201).json({
                     message: "Signup was successful",
                     user: {
@@ -46,5 +42,4 @@ export class AuthController {
             });
         }
     }
-
 }
